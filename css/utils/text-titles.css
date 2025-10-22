@@ -1,0 +1,23 @@
+/* estilos de textos, enlaces y titulos */
+.centered-text {
+    text-align: center;
+}
+
+.justified {
+    text-align: justify;
+}
+
+.danger-text {
+    text-align: center;
+    color: var(--danger-1);
+    font-style: italic;
+}
+
+.link {
+    color: var(--primary-1);
+    text-decoration: none;
+}
+
+.link:visited, link:hover, link:active {
+    color: var(--primary-3);
+}

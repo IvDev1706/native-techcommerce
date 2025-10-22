@@ -1,0 +1,17 @@
+/* diseño de cajas y contenedores */
+.chart {
+    background-color: var(--clear-1);
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px auto;
+}
+
+.centered-box {
+    background-color: var(--clear-1);
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}

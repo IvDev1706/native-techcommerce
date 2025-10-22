@@ -1,0 +1,5 @@
+/* distribuciones con display flex */
+.column-layout {
+    display: flex;
+    flex-flow: column nowrap;
+}

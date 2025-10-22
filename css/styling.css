@@ -1,0 +1,7 @@
+/** juntar estilos (el orden importa) **/
+@import 'defaults.css';
+@import 'layouts/flexLayouts.css';
+@import 'ui/boxes.css';
+@import 'utils/text-titles.css';
+@import 'utils/buttons.css';
+@import 'utils/inputs.css';

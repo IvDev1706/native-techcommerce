@@ -1,0 +1,29 @@
+/* estilos generales, formato por defecto y variables */
+
+:root {
+    /* colores de tematica */
+    --primary-1: #04f;
+    --primary-2: #03e;
+    --primary-3: #64f;
+    --primary-4: #48e;
+    --danger-1: #f00;
+    --agree-1: #1f3;
+    --clear-1: #fff;
+    --clear-2: #ddd;
+    --clear-3: #ccc;
+    --black-1: #000;
+}
+
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    user-select: none;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
