@@ -9,9 +9,9 @@
         private static ?mysqli $conn = null;
         private const SERVER = "localhost";
         private const USERNAME = "root";
-        private const PASSWORD = "";
+        private const PASSWORD = "Isql1706";
         private const DATABASE = "techcommerce";
-        private const PORT = "3308";
+        private const PORT = "3306";
 
         //constructor
         private function __construct(){}

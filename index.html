@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styling.css" type="text/css">
+    <script type="module" src="js/scripts/login.js" defer></script>
+    <title>techcommerce - login</title>
+</head>
+<body style="background-color: #48e;">
+    <div style="width: 450px;" class="centered-box">
+        <form id="login-form" class="column-layout" method="post">
+            <h2 class="centered-text">Techcommerce - login</h2>
+            <label for="username">Nombre de usuario:</label><br>
+            <input class="inpt" type="text" name="username" required>
+            <label for="password">Contraseña:</label><br>
+            <input class="inpt" type="password" name="password" required>
+            <button class="btn" type="submit">Acceder</button>
+        </form>
+        <p id="error-msg" class="danger-text"></p>
+        <p class="centered-text">
+            <a class="link" href="html/signup.html">¿No tienes cuenta?, crea una</a>
+        </p>
+    </div>
+</body>
+</html>

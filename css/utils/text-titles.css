@@ -12,12 +12,3 @@
     color: var(--danger-1);
     font-style: italic;
 }
-
-.link {
-    color: var(--primary-1);
-    text-decoration: none;
-}
-
-.link:visited, link:hover, link:active {
-    color: var(--primary-3);
-}

@@ -1,7 +1,10 @@
 /** juntar estilos (el orden importa) **/
 @import 'defaults.css';
+@import 'layouts/gridLayouts.css';
 @import 'layouts/flexLayouts.css';
 @import 'ui/boxes.css';
+@import 'ui/semantic.css';
 @import 'utils/text-titles.css';
+@import 'utils/links.css';
 @import 'utils/buttons.css';
 @import 'utils/inputs.css';

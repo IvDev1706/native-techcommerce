@@ -3,3 +3,15 @@
     display: flex;
     flex-flow: column nowrap;
 }
+
+.column-layout-spaced {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+}
+
+.row-layout {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}

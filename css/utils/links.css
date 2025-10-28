@@ -1,0 +1,27 @@
+.link {
+    color: var(--primary-1);
+    text-decoration: none;
+}
+
+.link:visited, link:hover, link:active {
+    color: var(--primary-3);
+}
+
+.tab-link {
+    background-color: var(--primary-3);
+    color: var(--clear-1);
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--primary-3);
+}
+
+.tab-link:active {
+    background-color: var(--clear-1);
+    color: var(--primary-3);
+}
+
+.tab-link:hover {
+    color: var(--clear-2);
+}

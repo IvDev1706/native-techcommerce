@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/styling.css" type="text/css">
+    <script type="module" src="../js/scripts/signup.js" defer></script>
+    <title>techcommerce - signup</title>
+</head>
+<body style="background-color: #48e;">
+    <div style="width: 450px;" class="centered-box">
+        <form id="signup-form" class="column-layout" method="POST">
+            <h2 class="centered-text">Techcommerce - registro</h2>
+            <label for="name">Nombre de usuario:</label><br>
+            <input class="inpt" type="text" name="name" required>
+            <label for="pass">Contraseña:</label><br>
+            <input class="inpt" type="password" name="pass" required>
+            <label for="mail">Correo:</label><br>
+            <input class="inpt" type="email" name="mail" required>
+            <label for="role">¿Que realizara?</label><br>
+            <select name="role">
+                <option value="client">comprar</option>
+                <option value="seller">vender</option>
+            </select>
+            <button class="btn" type="submit">registrar</button>
+        </form>
+        <p id="error-msg" class="danger-text"></p>
+    </div>
+</body>
+</html>
