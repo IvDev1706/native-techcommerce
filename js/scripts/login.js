@@ -1,4 +1,5 @@
 import { validateAccess } from "../services/user_service.js";
+import { ADMIN, SELLER } from '../utils/enums.js';
 
 //funcion de evento
 function handleSubmit(e){
@@ -18,18 +19,16 @@ function handleSubmit(e){
             return;
         }
 
-        //definir la cookie
-        let fecha = new Date();
-        fecha.setTime(fecha.getTime()+(86400*1000));
+        //definir el almacenamiento de sesion
         sessionStorage.setItem("session",JSON.stringify(res));
 
         //redirigir segun sea el caso
         switch(res.user_role){
-            case "seller":
-                window.open("/techcommerce/html/sellerPages/home.html","_self");
-                break;
-            case "admin":
+            case ADMIN:
                 window.open("/techcommerce/html/adminPages/dash.html","_self");
+                break;
+            case SELLER:
+                window.open("/techcommerce/html/sellerPages/home.html","_self");
                 break;
             default:
                 window.open("/techcommerce/html/clientPages/home.html","_self");

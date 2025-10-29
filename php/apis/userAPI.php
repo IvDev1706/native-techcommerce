@@ -51,7 +51,7 @@
     }catch(Exception $e) {
         //error 500
         http_response_code(500);
-        echo json_encode(["detail"=>"Error interno del servidor"]);
+        echo json_encode(["detail"=>"Error interno de servidor"]);
         exit;
     }
 ?>
