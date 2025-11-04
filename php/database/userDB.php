@@ -1,9 +1,8 @@
 <?php 
     include 'dbconnection.php';
-    include '../utils/enums.php';
 
     /**
-     * ### Api de usuarios ###
+     * ### Repositorio de usuarios ###
      * aqui se se encuentran los metodos
      * que permiten realizar operaciones
      * en la base de datos en torno a
@@ -64,5 +63,49 @@
         }
 
         return false;
+    }
+
+    //modificar datos de cuenta
+    function update_user(array $user):bool{
+        //obtener conexion
+        $conn = DBConnection::getInstance();
+
+        //preparar la sentencia
+        $stmt = "UPDATE Users SET user_name = ".$user['name'].", user_pass = ".$user['pass'].", user_mail = ".$user['mail']." WHERE user_id = ".$user['id'].";";
+
+        //ejeuctar la actualizacion
+        return $conn->query($stmt);
+    }
+
+    //eliminar cuenta
+    function delete_user(int $id):bool{
+        //obtener conexion
+        $conn = DBConnection::getInstance();
+
+        //sentencia para eliminar
+        $s = "DELETE FROM Users WHERE id = $id";
+        return $conn->query($s);
+    }
+
+    //obtener cuentas
+    function get_users(int $page):array{
+        //obtener conexion
+        $conn = DBConnection::getInstance();
+
+        //sentencia de obtencion
+        $s = "SELECT id, user_name, user_mail FROM Users LIMIT 10 OFFSET ".($page*10).";";
+
+        //ejecutar la query
+        $res = $conn->query($s);
+        $users = [];
+
+        if($res){
+            //obtener los registros
+            $users = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+        }
+
+        //devolver los registros
+        return $users;
     }
 ?>

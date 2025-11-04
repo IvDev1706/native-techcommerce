@@ -12,10 +12,10 @@
         <form id="login-form" class="column-layout" method="post">
             <img src="assets/img/logo.png" alt="logo de tech">
             <label for="username">Nombre de usuario:</label><br>
-            <input class="inpt" type="text" name="username" required>
+            <input class="inpt" type="text" name="username" maxlength="15" required>
             <label for="password">Contraseña:</label><br>
-            <input class="inpt" type="password" name="password" required>
-            <button class="btn" type="submit">Acceder</button>
+            <input class="inpt" type="password" name="password" maxlength="10" required>
+            <button class="btn btn-primary" type="submit">Acceder</button>
         </form>
         <p id="error-msg" class="danger-text"></p>
         <p class="centered-text">

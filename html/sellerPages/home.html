@@ -5,24 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/styling.css">
     <script src="../../js/routing/protection.js"></script>
+    <script type="module" src="../../js/scripts/seller.js" defer></script>
     <title>seller - products</title>
 </head>
 <body class="main-layout">
-    <header class="main-header head row-layout">
+    <header class="main-header head row-layout-spaced">
         <img src="../../assets/img/logo.png" alt="logo">
         <h3>Mis productos</h3>
         <a class="tab-link centered-text" href="../account.html">mi cuenta</a>
     </header>
     <aside class="main-aside aside column-layout-spaced">
-        <a class="tab-link centered-text" href="/techcommerce/html/sellerPages/home.html">mis productos</a>
-        <a class="tab-link centered-text" href="/techcommerce/html/sellerPages/home.html">registrar</a>
-        <a class="tab-link centered-text" href="/techcommerce/html/sellerPages/home.html">actualizar</a>
-        <a class="tab-link centered-text" href="/techcommerce/html/sellerPages/home.html">eliminar</a>
+        <button id="btn-read" class="btn tab-btn">mis productos</button>
+        <button id="btn-add" class="btn tab-btn">registrar</button>
+        <button id="btn-modify" class="btn tab-btn">actualizar</button>
+        <button id="btn-drop" class="btn tab-btn">eliminar</button>
     </aside>
-    <main class="main-content content">
-        <h1>Contenido</h1>
+    <main id="target-cont" class="main-content content">
+        <div style="width: 60%;" class="chart">
+            <h1 class="centered-text">Zona de vendedor</h1>
+            <hr>
+            <p class="centered-text">
+                selecciona una pestaña del panel izquierdo para ver el contenido
+            </p>
+        </div>
     </main>
-    <footer class="main-footer foot row-layout">
+    <footer class="main-footer foot row-layout-spaced">
         <h4>Equipo 4 - Programacion Web</h4>
         <h3>Techcommerce S.A de C.V</h3>
         <h4>Copyright@ 2025</h4>

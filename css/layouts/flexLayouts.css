@@ -13,5 +13,10 @@
 .row-layout {
     display: flex;
     flex-flow: row nowrap;
+}
+
+.row-layout-spaced {
+    display: flex;
+    flex-flow: row nowrap;
     justify-content: space-around;
 }

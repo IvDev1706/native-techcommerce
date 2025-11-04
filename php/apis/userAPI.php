@@ -3,6 +3,8 @@
     include 'cors.php';
     //api de usuario
     include '../database/userDB.php';
+    //enum de acciones
+    include '../utils/enums/userEnums.php';
 
     //cabecera http
     header("Content-Type: application/json");
@@ -17,36 +19,72 @@
     //manejo de errores
     try{
         //que tipo de peticion esta solicitando
-        if($_GET['action'] == 'login'){
-            //validar el login
-            $user = validate_access($_POST['username'],$_POST['password']);
-            
-            if(!$user){
-                //login invalido
+        switch($_GET['action']){
+            case UserActions::LOGIN->value;
+                //validar el login
+                $user = validate_access($_POST['username'],$_POST['password']);
+                //validar respuesta
+                if(!$user){
+                    //login invalido
+                    http_response_code(404);
+                    //cuerpo
+                    echo json_encode(["detail"=>"acceso invalido"]);
+                    exit;
+                }
+                //respuesta GET (como echo)
+                echo json_encode($user);
+                break;
+            case UserActions::ADD->value:
+                //insertar usuario
+                $res = register_user($_POST);
+                //respuesta
+                if(!$res){
+                    //registro invalido
+                    http_response_code(500);
+                    //cuerpo
+                    echo json_encode(["detail"=>"cuenta no creada"]);
+                    exit;
+                }
+                //respuesta GET (como echo)
+                echo json_encode(["msg"=>"cuenta registrada"]);
+                break;
+            case UserActions::MODIFY->value:
+                //realizar cambios
+                $res = update_user($_POST);
+                //validar respuesta
+                if(!$res){
+                    //actualizacion invalida
+                    http_status_code(500);
+                    //cuerpo
+                    echo json_encode(["detail"=>"cambios no realizados"]);
+                    exit;
+                }
+                //respuesta get
+                echo json_decode(["msg"=>"cambios realizados"]);
+                break;
+            case UserActions::DROP->value:
+                //eliminar usuario
+                $res = delete_user($_GET['id']);
+                //validar respuesta
+                if(!$res){
+                    //eliminacion invalida
+                    http_status_code(500);
+                    //cuerpo
+                    echo json_encode(["detail"=>"la cuenta no se ha borrado"]);
+                    exit;
+                }
+                //respuesta get
+                echo json_decode(["msg"=>"cuenta eliminada"]);
+                break;
+            case UserActions::GET->value:
+                //obtener usuarios
+                echo json_decode(get_users($_GET['page']));
+                break;
+            default:
+                //action invalida
                 http_response_code(404);
-                //cuerpo
-                echo json_encode(["detail"=>"acceso invalido"]);
-                exit;
-            }
-
-            //respuesta GET (como echo)
-            echo json_encode($user);
-            exit;
-        }else{
-            //insertar usuario
-            $res = register_user($_POST);
-            //respuesta
-            if(!$res){
-                //registro invalido
-                http_response_code(500);
-                //cuerpo
-                echo json_encode(["detail"=>"cuenta no creada"]);
-                exit;
-            }
-
-            //respuesta GET (como echo)
-            echo json_encode(["msg"=>"cuenta registrada"]);
-            exit;
+                echo json_encode(["detail"=>"accion invalida"]);
+                break;
         }
     }catch(Exception $e) {
         //error 500

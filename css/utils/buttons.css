@@ -1,15 +1,45 @@
 /* estilos de botones */
 .btn {
-    color: var(--clear-1);
-    background-color: var(--primary-1);
-    border: 1px solid var(--primary-1);
+    display: inline-block;
     border-radius: 5px;
     padding: 3px;
     margin: 2px;
     cursor: pointer;
 }
 
-.btn:active {
+.btn-primary {
+    color: var(--clear-1);
+    background-color: var(--primary-1);
+    border: 1px solid var(--primary-1);
+}
+
+.btn-primary:active {
     color: var(--clear-3);
     background-color: var(--primary-2);
+}
+
+.btn-agree {
+    color: var(--clear-1);
+    background-color: var(--agree-1);
+    border: 1px solid var(--agree-1);
+}
+
+.btn-agree:active {
+    color: var(--clear-3);
+    background-color: var(--agree-2);
+}
+
+.tab-btn {
+    color: var(--clear-1);
+    background-color: var(--primary-3);
+    border: 1px solid var(--primary-3);
+}
+
+.tab-btn:hover {
+    color: var(--clear-2);
+}
+
+.tab-btn:active {
+    color: var(--clear-3);
+    background-color: var(--primary-3);
 }
