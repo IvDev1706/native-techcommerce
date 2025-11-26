@@ -1,5 +1,5 @@
-import { validateAccess } from "../services/user_service.js";
-import { ADMIN, SELLER } from '../utils/enums.js';
+import { validateAccess } from "../../services/user_service.js";
+import { ADMIN, SELLER } from '../../utils/enums.js';
 
 //funcion de evento
 function handleSubmit(e){
@@ -25,13 +25,13 @@ function handleSubmit(e){
         //redirigir segun sea el caso
         switch(res.user_role){
             case ADMIN:
-                window.open("/techcommerce/html/adminPages/dash.html","_self");
+                window.open("/html/adminPages/dash.html","_self");
                 break;
             case SELLER:
-                window.open("/techcommerce/html/sellerPages/home.html","_self");
+                window.open("/html/sellerPages/home.html","_self");
                 break;
             default:
-                window.open("/techcommerce/html/clientPages/home.html","_self");
+                window.open("/html/clientPages/home.html","_self");
                 break;
         }
     }).catch(err => console.log(err));

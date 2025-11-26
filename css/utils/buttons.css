@@ -28,18 +28,3 @@
     color: var(--clear-3);
     background-color: var(--agree-2);
 }
-
-.tab-btn {
-    color: var(--clear-1);
-    background-color: var(--primary-3);
-    border: 1px solid var(--primary-3);
-}
-
-.tab-btn:hover {
-    color: var(--clear-2);
-}
-
-.tab-btn:active {
-    color: var(--clear-3);
-    background-color: var(--primary-3);
-}

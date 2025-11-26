@@ -1,4 +1,4 @@
-import { registerUser } from "../services/user_service.js";
+import { registerUser } from "../../services/user_service.js";
 
 //funcion de evento
 function handleSubmit(e){
@@ -19,7 +19,7 @@ function handleSubmit(e){
         }
         
         //redirigir a login
-        window.open("/techcommerce/index.html","_self");
+        window.open("/index.html","_self");
     }).catch(err=>console.log(err));
 }
 

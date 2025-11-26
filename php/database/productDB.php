@@ -16,9 +16,9 @@
 
         //sentencia de sql
         if($seller_id != 0){
-            $stmt = "SELECT id, product_name, product_desc, product_units FROM Product WHERE product_seller = $seller_id LIMIT 10 OFFSET ".($page*10).";";
+            $stmt = "SELECT id, product_name as 'name', product_units as units FROM Product WHERE product_seller = $seller_id LIMIT 10 OFFSET ".($page*10).";";
         }else{
-            $stmt = "SELECT id, product_name, product_desc, product_units FROM Product LIMIT 10 OFFSET ".($page*10).";";
+            $stmt = "SELECT id, product_name as 'name', product_units as units FROM Product LIMIT 10 OFFSET ".($page*10).";";
         }
         //ejecutar la sentencia
         $res = $conn->query($stmt);

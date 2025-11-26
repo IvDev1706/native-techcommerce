@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/styling.css">
     <script src="../../js/routing/protection.js"></script>
-    <script type="module" src="../../js/scripts/seller/read.js" defer></script>
-    <title>seller - products</title>
+    <script type="module" src="../../js/scripts/seller/add.js" defer></script>
+    <title>seller - register</title>
 </head>
 <body class="main-layout">
     <header class="main-header head row-layout-spaced">
         <img src="../../assets/img/logo.png" alt="logo">
-        <h3>Mis productos</h3>
+        <h3>Registra nuevo producto</h3>
         <a class="tab-link centered-text" href="../account.html">mi cuenta</a>
     </header>
     <aside class="main-aside aside column-layout-spaced">
@@ -20,10 +20,20 @@
         <a href="./update.html" class="tab-link centered-text">actualizar</a>
         <a href="./delete.html" class="tab-link centered-text">eliminar</a>
     </aside>
-    <main class="main-content content">
-        <h1 class="centered-text">Listado de productos</h1>
-        <div style="width: 100%;" id="product-cont">
-            esperando productos..
+    <main id="target-cont" class="main-content content">
+        <h1 class="centered-text">Ingresar nuevo producto al sistema</h1>
+        <div style="width: 60%;" class="chart">
+            <form id="product-form" class="column-layout" method="post">
+                <label for="name">Nombre del producto:</label>
+                <input type="text" name="name" maxlength="30" required>
+                <label for="units">Unidades disponibles:</label>
+                <input type="number" name="units" min="1" max="100" required>
+                <label for="price">Precio unitario:</label>
+                <input type="number" name="price" min="1" required>
+                <label for="desc">Descripcion:</label>
+                <textarea name="desc" required></textarea>
+                <button class="btn btn-agree" type="submit">registrar</button>
+            </form>
         </div>
     </main>
     <footer class="main-footer foot row-layout-spaced">

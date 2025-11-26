@@ -2,7 +2,7 @@
 export async function validateAccess(data){
     //peticion con fetch
     const response = await fetch(
-        "/techcommerce/php/apis/userApi.php?action=login",{
+        "/php/apis/userAPI.php?action=login",{
         method:"POST",
         mode:"cors",
         body: data
@@ -21,7 +21,7 @@ export async function validateAccess(data){
 export async function registerUser(data){
     //peticion con fetch
     const response = await fetch(
-        "/techcommerce/php/apis/userApi.php?action=signup",{
+        "/php/apis/userAPI.php?action=signup",{
         method:"POST",
         mode:"cors",
         body:data

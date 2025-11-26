@@ -8,19 +8,19 @@
 }
 
 .tab-link {
-    background-color: var(--primary-1);
+    background-color: var(--primary-3);
     color: var(--clear-1);
     text-decoration: none;
     display: inline-block;
-    border: 1px solid var(--primary-1);
+    border: 1px solid var(--primary-3);
     border-radius: 5px;
-    padding: 10px;
+    padding: 5px;
 }
 
 .tab-link:active {
-    background-color: var(--primary-2);
+    background-color: var(--primary-3);
     color: var(--clear-3);
-    border-color: var(--primary-2);
+    border-color: var(--primary-3);
 }
 
 .tab-link:hover {

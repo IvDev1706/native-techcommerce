@@ -15,7 +15,7 @@
         $conn = DBConnection::getInstance();
 
         //buscar en la tabla de usuarios
-        $result = $conn->query("SELECT id, user_name FROM Users WHERE user_name = '$username' and user_pass = '$password'");
+        $result = $conn->query("SELECT id, user_name as name, user_mail as mail FROM Users WHERE user_name = '$username' and user_pass = '$password'");
         $user = $result->fetch_assoc();
 
         //buscar el rol en caos de que exista
