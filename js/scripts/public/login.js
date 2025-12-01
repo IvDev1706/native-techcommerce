@@ -23,7 +23,7 @@ function handleSubmit(e){
         sessionStorage.setItem("session",JSON.stringify(res));
 
         //redirigir segun sea el caso
-        switch(res.user_role){
+        switch(res.role){
             case ADMIN:
                 window.open("/html/adminPages/dash.html","_self");
                 break;

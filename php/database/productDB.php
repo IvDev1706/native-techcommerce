@@ -38,7 +38,7 @@
         $conn = DBConnection::getInstance();
 
         //preparar la sentencia
-        $stmt = "SELECT * FROM Product WHERE id = $id";
+        $stmt = "SELECT id, product_name as 'name', product_desc as 'desc', product_units as units, product_price as price FROM Product WHERE id = $id";
 
         //ejecutar la sentencia
         $res = $conn->query($stmt);

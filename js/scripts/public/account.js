@@ -11,12 +11,13 @@ user_box.innerHTML =
 "<h1 class=\"centered-text\">Datos de la cuenta</h1>"+
 "<p>"+
 "<b>ID: </b>"+user.id+"<br>"+
-"<b>Nombre de usuario: </b>"+user.user_name+"<br>"+
-"<b>Rol: </b>"+user.user_role+"<br>"
+"<b>Nombre de usuario: </b>"+user.name+"<br>"+
+"<b>correo vinculado: </b>"+user.mail+"<br>"+
+"<b>Rol: </b>"+user.role+"<br>"
 +"</p>";
 
 //redireccion dinamica
-switch(user.user_role){
+switch(user.role){
     case ADMIN:
         user_box.innerHTML += "<a class=\"link\" href=\"/html/adminPages/dash.html\">volver a home</a>";
         break;

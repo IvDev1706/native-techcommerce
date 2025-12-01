@@ -7,6 +7,10 @@
     text-align: justify;
 }
 
+.italic {
+    font-style: italic;
+}
+
 .danger-text {
     text-align: center;
     color: var(--danger-1);

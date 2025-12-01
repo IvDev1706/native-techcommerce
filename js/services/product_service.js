@@ -20,7 +20,20 @@ export async function get_products(page, seller=0){
 }
 
 export async function get_product(id){
-    
+    //peticion con fetch
+    const response = await fetch("/php/apis/productAPI.php?action=info&id="+id,{
+        method:"GET",
+        mode:"cors"
+    });
+
+    //verificar estatus
+    if(!response.ok){
+        //retorna una lista vacia
+        return null;
+    }
+
+    //retornamos los productos
+    return await response.json();
 }
 
 //registrar un nuevo producto
@@ -39,5 +52,22 @@ export async function register_product(data){
     }
 
     //retornar verdadero
+    return true;
+}
+
+export async function delete_product(id){
+    //peticion con fetch
+    const response = await fetch("/php/apis/productAPI.php?action=delete&id="+id,{
+        method: "GET",
+        mode: "cors"
+    });
+
+    //verifricar estatus
+    if(!response.ok){
+        //retorna falso
+        return false;
+    }
+
+    //caso de exito
     return true;
 }

@@ -25,8 +25,19 @@
                 echo json_encode(get_products($_GET['page']));
                 break;
             case ProductActions::GET_ONE->value:
+                //buscar producto
+                $prod = get_product_info($_GET['id']);
+
+                //verificar exito
+                if(!count($prod)){
+                    //respuesta 404
+                    http_response_code(404);
+                    //mensaje de error
+                    echo json_encode(["detail"=>"producto no encontrado"]);
+                }
+
                 //devolver la informacion del producto
-                echo json_encode(get_product_info($_GET['id']));
+                echo json_encode($prod);
                 break;
             case ProductActions::ADD->value:
                 //mandar datos

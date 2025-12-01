@@ -26,11 +26,11 @@
             $r = $conn->query("SELECT EXISTS (SELECT 1 FROM Sellers WHERE id = ".$user['id'].");");
             $seller = $r->fetch_row()[0];
             if($admin){
-                $user['user_role'] = UserRoles::ADMIN->value;
+                $user['role'] = UserRoles::ADMIN->value;
             }else if($seller){
-                $user['user_role'] = UserRoles::SELLER->value;
+                $user['role'] = UserRoles::SELLER->value;
             }else{
-                $user['user_role'] = UserRoles::CLIENT->value;
+                $user['role'] = UserRoles::CLIENT->value;
             }
         }
 
