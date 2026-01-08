@@ -6,6 +6,9 @@
     //enum de acciones
     include '../utils/enums/userEnums.php';
 
+    //instancia de repositorio
+    $repo = new UserRepository();
+
     //cabecera http
     header("Content-Type: application/json");
 
@@ -22,7 +25,7 @@
         switch($_GET['action']){
             case UserActions::LOGIN->value;
                 //validar el login
-                $user = validate_access($_POST['username'],$_POST['password']);
+                $user = $repo->validate_access($_POST['username'],$_POST['password']);
                 //validar respuesta
                 if(!$user){
                     //login invalido
@@ -36,7 +39,7 @@
                 break;
             case UserActions::ADD->value:
                 //insertar usuario
-                $res = register_user($_POST);
+                $res = $repo->register_user($_POST);
                 //respuesta
                 if(!$res){
                     //registro invalido
@@ -50,7 +53,7 @@
                 break;
             case UserActions::MODIFY->value:
                 //realizar cambios
-                $res = update_user($_POST);
+                $res = $repo->update_user($_POST);
                 //validar respuesta
                 if(!$res){
                     //actualizacion invalida
@@ -64,7 +67,7 @@
                 break;
             case UserActions::DROP->value:
                 //eliminar usuario
-                $res = delete_user($_GET['id']);
+                $res = $repo->delete_user($_GET['id']);
                 //validar respuesta
                 if(!$res){
                     //eliminacion invalida
@@ -78,7 +81,7 @@
                 break;
             case UserActions::GET->value:
                 //obtener usuarios
-                echo json_decode(get_users($_GET['page']));
+                echo json_decode($repo->get_users($_GET['page']));
                 break;
             default:
                 //action invalida

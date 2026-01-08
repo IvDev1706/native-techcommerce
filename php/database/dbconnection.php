@@ -1,4 +1,7 @@
 <?php
+    //obtener variables de configuracion de bd
+    include "../utils/dbconfig.php";
+
     /**
      * ### Conexion a BD ###
      * clase de conexion a base de datos
@@ -6,36 +9,154 @@
      */
     class DBConnection {
         //unica instancia
-        private static ?mysqli $conn = null;
-        private const SERVER = "localhost";
-        private const USERNAME = "root";
-        private const PASSWORD = "Isql1706";
-        private const DATABASE = "techcommerce";
-        private const PORT = "3306";
+        private static ?DBConnection $db = null;
+
+        //atributos
+        private mysqli $con;
 
         //constructor
-        private function __construct(){}
+        private function __construct(){
+            //conector de bd
+            $this->con = new mysqli(
+                SERVER,
+                USERNAME,
+                PASSWORD,
+                DATABASE,
+                PORT
+            );
 
-        //funcion de singleton
-        public static function getInstance():mysqli{
-            //verificar so no hay instancia
-            if(!self::$conn){
-                //instanciarla
-                self::$conn = new mysqli(
-                    self::SERVER,
-                    self::USERNAME,
-                    self::PASSWORD,
-                    self::DATABASE,
-                    self::PORT);
+            //verificar error de conexion
+            if($this->con->connect_error){
+                throw new Exception("Error al conectar a base de datos");
+            }
+        }
 
-                //verificar error de conexion
-                if(self::$conn->connect_error){
-                    die("Error de conexion: ".self::$conn);
+        //consultas preparadas
+        public function select_from(string $table, array $fields = ["*"], string $condition = "", int $page = 0):array{
+            //preparar la sentencia
+            $stmt = "SELECT ".$this->join(", ",$fields);
+            $stmt .= " FROM ".$table;
+            $stmt .= $condition != "" ? " WHERE ".$condition : "";
+            $stmt .= " LIMIT 10 OFFSET ".($page*10).";";
+
+            //ejecutar la query
+            $res = $this->con->query($stmt);
+
+            //obtener registros
+            $data = [];
+            if($res){
+                $data = $res->fetch_all(MYSQLI_ASSOC);
+                $res->free();
+            }
+
+            //retornar datos
+            return $data;
+        }
+
+        public function select_exists(string $table, string $condition):bool{
+            //preparar la sentencia
+            $stmt = "SELECT EXISTS (SELECT 1 FROM $table WHERE $condition);";
+
+            //ejecutar la query
+            $res = $this->con->query($stmt);
+
+            //obtener resultado
+            return $res->fetch_row()[0] ? true : false;
+        }
+
+        public function insert_into(string $table, array $values, string $types, ?array $fields = null):bool{
+            try{
+                //preparar el statement
+                $stmt = "INSERT INTO ".$table;
+                if($fields){
+                    $stmt .= "(".$this->join(", ",$fields).")";
+                }
+                $stmt .= " VALUES (".$this->join(", ",$values,"?").");";
+
+                //preparar para parametros
+                $prepared = $this->con->prepare($stmt);
+
+                //escuchar
+                $prepared->bind_param($types, ...$values);
+
+                //ejecutar
+                $prepared->execute();
+
+                //retornar verdadero
+                return true;
+            }catch(Exception $e){
+                return false;
+            }
+        }
+
+        public function delete_from(string $table, string $condition):bool{
+            try{
+                //preparar el statement
+                $stmt = "DELETE FROM ".$table." WHERE ".$condition.";";
+                //ejecutar la sentencia
+                return $this->con->query($stmt);
+            }catch(Exception $e){
+                return false;
+            }
+        }
+
+        public function update_set(string $table, array $fields, array $values, string $types, string $condition):bool{
+            try{
+                //preparar el statement
+                $stmt = "UPDATE ".$table;
+                $stmt .= " SET ".$this->join("= ?, ",$fields)."= ?";
+                $stmt .= " WHERE ".$condition.";";
+
+                print_r($stmt);
+
+                //preparar para parametros
+                $prepared = $this->con->prepare($stmt);
+
+                //escuchar
+                $prepared->bind_param($types, ...$values);
+
+                //ejecutar
+                $prepared->execute();
+
+                //retornar verdadero
+                return true;
+            }catch(Exception $e){
+                return false;
+            }
+        }
+
+        ///funcion join para concatenrar elementos
+        private function join(string $sep, array $values, string $replace = ""):string{
+            //contenedor
+            $salida = "";
+            $limit = count($values)-1;
+            //concatenar valores
+            foreach($values as $key=>$value){
+                if($key < $limit){
+                    $salida .= $replace != "" ? $replace . $sep : $value . $sep;
+                }else{
+                    $salida .= $replace != "" ? $replace : $value;
                 }
             }
 
-            //retorno de instancia
-            return self::$conn;
+            return $salida;
+        }
+
+        //funcion de singleton
+        public static function getInstance():DBConnection | null{
+            //manejo de error
+            try{
+                //verificar la instancia
+                if(!self::$db){
+                    //instanciar
+                    self::$db = new DBConnection();
+                }
+
+                //retornar instancia
+                return self::$db;
+            }catch(Exception $e){
+                return null;
+            }
         }
     }
 ?>

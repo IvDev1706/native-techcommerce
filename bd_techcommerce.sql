@@ -42,7 +42,8 @@ create table Orders(
 create table ProductList(
 	id int auto_increment primary key,
     ord int references Orders(id) on delete cascade,
-    product int references Product(id) on delete set null
+    product int references Product(id) on delete set null,
+    units int not null
 );
 
 create index idx_plist on ProductList(ord, product);

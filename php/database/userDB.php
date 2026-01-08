@@ -1,5 +1,6 @@
 <?php 
     include 'dbconnection.php';
+    include 'metadata.php';
 
     /**
      * ### Repositorio de usuarios ###
@@ -9,103 +10,94 @@
      * usuarios
      */
 
-    //validar acceso
-    function validate_access(string $username, string $password):array|false|null{
-        //obtener conexion
-        $conn = DBConnection::getInstance();
+    class UserRepository{
+        //******* Atributos *******//
+        private DBConnection $driver;
 
-        //buscar en la tabla de usuarios
-        $result = $conn->query("SELECT id, user_name as name, user_mail as mail FROM Users WHERE user_name = '$username' and user_pass = '$password'");
-        $user = $result->fetch_assoc();
+        //******* Metodo constructor *******//
+        public function __construct(){
+            //objeto de conexion
+            $this->driver = DBConnection::getInstance();
+        }
 
-        //buscar el rol en caos de que exista
-        if($user){
-            //buscar en admins primero
-            $r = $conn->query("SELECT EXISTS (SELECT 1 FROM Admins WHERE id = ".$user['id'].");");
-            $admin = $r->fetch_row()[0];
-            $r = $conn->query("SELECT EXISTS (SELECT 1 FROM Sellers WHERE id = ".$user['id'].");");
-            $seller = $r->fetch_row()[0];
-            if($admin){
+        //******* funciones de repositorio *******//
+        //validar acceso
+        public function validate_access(string $username, string $password):array|null{
+            if(!$this->driver){
+                return null;
+            }
+
+            //buscar en la tabla de usuarios
+            $res = $this->driver->select_from(USERTABLE,[USERCOLUMNS::ID->value,USERCOLUMNS::NAME->value,USERCOLUMNS::MAIL->value],USERCOLUMNS::NAME->value." = '$username' and ".USERCOLUMNS::PASS->value." = '$password'");
+
+            //verificar que existe
+            if(!count($res)){
+                return null;
+            }
+
+            //objeto de usuario
+            $user = [
+                "id"=>$res[0][USERCOLUMNS::ID->value],
+                "name"=>$res[0][USERCOLUMNS::NAME->value],
+                "mail"=>$res[0][USERCOLUMNS::MAIL->value]
+            ];
+
+            //definir el rol del usuario
+            if($this->driver->select_exists(ADMINSTABLE,USERCOLUMNS::ID->value." = ".$user[USERCOLUMNS::ID->value])){
                 $user['role'] = UserRoles::ADMIN->value;
-            }else if($seller){
+            }else if($this->driver->select_exists(SELLERSTABLE,USERCOLUMNS::ID->value." = ".$user[USERCOLUMNS::ID->value])){
                 $user['role'] = UserRoles::SELLER->value;
             }else{
                 $user['role'] = UserRoles::CLIENT->value;
             }
+
+            //obtener el usuario
+            return $user;
         }
 
-        //obtener el usuario
-        return $user;
-    }
-
-    //registrar usuario
-    function register_user(array $user):bool{
-        //obtener conexion
-        $conn = DBConnection::getInstance();
-
-        //statement
-        $stmt = "INSERT INTO Users(user_name,user_pass,user_mail) VALUES ("."'".$user['name']."','".$user['pass']."','".$user['mail']."')";
-
-        //ejecutar la insercion
-        if($conn->query($stmt)){
-            //segun el rol
-            switch($user['role']){
-                case UserRoles::ADMIN->value:
-                    //insertar en tabla de administradores
-                    return $conn->query("INSERT INTO Admins VALUES (LAST_INSERT_ID())");
-                case UserRoles::SELLER->value:
-                    //insertar en tabla de vendedores
-                    return $conn->query("INSERT INTO Sellers VALUES (LAST_INSERT_ID())");
-                default:
-                    //insertar en tabla de administradores
-                    return $conn->query("INSERT INTO Clients VALUES (LAST_INSERT_ID())");
+        //registrar usuario
+        public function register_user(array $user):bool{
+            if(!$this->driver){
+                return false;
             }
+
+            //ejecutar sentencia
+            $res = $this->driver->insert_into(USERTABLE,[$user[USERCOLUMNS::NAME->value],$user[USERCOLUMNS::PASS->value],$user[USERCOLUMNS::MAIL->value]],USERTYPES,[USERCOLUMNS::NAME->value,USERCOLUMNS::PASS->value,USERCOLUMNS::MAIL->value]);
+
+            //ejecutar la insercion en tabla hija
+            if($res){
+                //segun el rol
+                switch($user['role']){
+                    case UserRoles::ADMIN->value:
+                        //insertar en tabla de administradores
+                        return $this->driver->insert_into(ADMINSTABLE,["LAST_INSERT_ID()"],"i");
+                    case UserRoles::SELLER->value:
+                        //insertar en tabla de vendedores
+                        return $this->driver->insert_into(SELLERSTABLE,["LAST_INSERT_ID()"],"i");
+                    default:
+                        //insertar en tabla de administradores
+                        return $this->driver->insert_into(CLIENTSTABLE,["LAST_INSERT_ID()"],"i");
+                }
+            }
+
+            return false;
         }
 
-        return false;
-    }
-
-    //modificar datos de cuenta
-    function update_user(array $user):bool{
-        //obtener conexion
-        $conn = DBConnection::getInstance();
-
-        //preparar la sentencia
-        $stmt = "UPDATE Users SET user_name = ".$user['name'].", user_pass = ".$user['pass'].", user_mail = ".$user['mail']." WHERE user_id = ".$user['id'].";";
-
-        //ejeuctar la actualizacion
-        return $conn->query($stmt);
-    }
-
-    //eliminar cuenta
-    function delete_user(int $id):bool{
-        //obtener conexion
-        $conn = DBConnection::getInstance();
-
-        //sentencia para eliminar
-        $s = "DELETE FROM Users WHERE id = $id";
-        return $conn->query($s);
-    }
-
-    //obtener cuentas
-    function get_users(int $page):array{
-        //obtener conexion
-        $conn = DBConnection::getInstance();
-
-        //sentencia de obtencion
-        $s = "SELECT id, user_name, user_mail FROM Users LIMIT 10 OFFSET ".($page*10).";";
-
-        //ejecutar la query
-        $res = $conn->query($s);
-        $users = [];
-
-        if($res){
-            //obtener los registros
-            $users = $res->fetch_all(MYSQLI_ASSOC);
-            $res->free();
+        //modificar datos de cuenta
+        public function update_user(array $user):bool{
+            //ejecutar sentencia
+            return $this->driver->update_set(USERTABLE,[USERCOLUMNS::NAME->value,USERCOLUMNS::PASS->value,USERCOLUMNS::MAIL->value],$user,USERTYPES,USERCOLUMNS::ID->value." = ".$user[USERCOLUMNS::ID->value]);
         }
 
-        //devolver los registros
-        return $users;
+        //eliminar cuenta
+        function delete_user(int $id):bool{
+            //ejecutar la eliminacion
+            return $this->driver->delete_from(USERTABLE,USERCOLUMNS::ID->value." = ".$id);
+        }
+
+        //obtener cuentas
+        function get_users(int $pg):array{
+            return $this->driver->select_from(USERTABLE,$fields=[USERCOLUMNS::ID->value,USERCOLUMNS::NAME->value,USERCOLUMNS::MAIL->value],$page=$pg);
+        }
     }
 ?>

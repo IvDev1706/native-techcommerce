@@ -1,5 +1,6 @@
 <?php
     include 'dbconnection.php';
+    include 'metadata.php';
 
     /**
      * ### Repositorio de productos ###
@@ -9,99 +10,55 @@
      * productos
      */
 
-    //obtener productos paginados
-    function get_products(int $page, int $seller_id = 0):array{
-        //obtener conexion a base de datos
-        $conn = DBConnection::getInstance();
+    class ProductRepository{
+        //******* Atributos *******//
+        private DBConnection $driver;
 
-        //sentencia de sql
-        if($seller_id != 0){
-            $stmt = "SELECT id, product_name as 'name', product_units as units FROM Product WHERE product_seller = $seller_id LIMIT 10 OFFSET ".($page*10).";";
-        }else{
-            $stmt = "SELECT id, product_name as 'name', product_units as units FROM Product LIMIT 10 OFFSET ".($page*10).";";
-        }
-        //ejecutar la sentencia
-        $res = $conn->query($stmt);
-        $products = [];
-
-        //obtener productos
-        if($res){
-            $products = $res->fetch_all(MYSQLI_ASSOC);
-            $res->free();
+        //******* Metodo constructor *******//
+        public function __construct(){
+            //objeto de conexion
+            $this->driver = DBConnection::getInstance();
         }
 
-        return $products;
-    }
+        //******* Funciones de repositorio *******//
+        //obtener productos paginados
+        public function get_products(int $page, int $seller_id = 0):array{
+            //sentencia de sql
+            if($seller_id != 0){
+                return $this->driver->select_from(PRODUCTTABLE,[PRODUCTCOLUMNS::ID->value,PRODUCTCOLUMNS::NAME->value." as 'name'",PRODUCTCOLUMNS::UNITS->value." as units"],PRODUCTCOLUMNS::SELLER->value." = ".$seller_id);
+            }else{
+                return $this->driver->select_from(PRODUCTTABLE,[PRODUCTCOLUMNS::ID->value,PRODUCTCOLUMNS::NAME->value." as 'name'",PRODUCTCOLUMNS::UNITS->value." as units"]);
+            }
+        }
 
-    function get_product_info(int $id):array{
-        //obtener conexion a base de datos
-        $conn = DBConnection::getInstance();
+        public function get_product_info(int $id):array | null{
+            //ejecutar la sentencia
+            $res = $this->driver->select_from(PRODUCTTABLE,[PRODUCTCOLUMNS::ID->value,PRODUCTCOLUMNS::NAME->value." as 'name'",PRODUCTCOLUMNS::DESC->value." as 'desc'",PRODUCTCOLUMNS::UNITS->value." as units",PRODUCTCOLUMNS::PRICE->value." as price"],PRODUCTCOLUMNS::ID->value." = ".$id);
 
-        //preparar la sentencia
-        $stmt = "SELECT id, product_name as 'name', product_desc as 'desc', product_units as units, product_price as price FROM Product WHERE id = $id";
+            return count($res) ? $res[0] : null;
+        }
 
-        //ejecutar la sentencia
-        $res = $conn->query($stmt);
+        public function create_product(array $product):bool{
+            //retornar el valor
+            return $this-driver->insert_into(PRODUCTTABLE,$product,PRODUCTTYPES,[PRODUCTCOLUMNS::NAME->value,PRODUCTCOLUMNS::DESC->value,PRODUCTCOLUMNS::UNITS->value,PRODUCTCOLUMNS::PRICE->value,PRODUCTCOLUMNS::SELLER->value]);
+        }
 
-        return $res->fetch_assoc() ?? [];
-    }
+        public function update_product(array $product):bool{
+            //retornar el valor
+            return $this->driver->update_set(PRODUCTLISTTABLE,[PRODUCTCOLUMNS::NAME->value,PRODUCTCOLUMNS::DESC->value,PRODUCTCOLUMNS::UNITS->value,PRODUCTCOLUMNS::PRICE->value],[$product['name'],$product['desc'],$product['units'],$product['price']],PRODUCTTYPES_UPDATE,PRODUCTCOLUMNS::SELLER->value." = ".$product['seller']);
+        }
 
-    function create_product(array $product):bool{
-        //obtener conexion a base de datos
-        $conn = DBConnection::getInstance();
+        public function delete_product(int $id){
+            //retornar el valor
+            return $this->driver->delete_from(PRODUCTTABLE,PRODUCTCOLUMNS::ID->value." = ".$id);
+        }
 
-        //preparar la sentencia
-        $stmt = "INSERT INTO Product(product_name,product_desc,product_units,product_price,product_seller) VALUES ('".$product['name']."','".$product['desc']."',".$product['units'].",".$product['price'].",".$product['seller'].");";
-
-        //ejecutar la sentencia
-        $res = $conn->query($stmt);
-
-        //retornar el valor
-        return $res;
-    }
-
-    function update_product(array $product):bool{
-        //obtener conexion a base de datos
-        $conn = DBConnection::getInstance();
-
-        //preparar la sentencia
-        $stmt = "UPDATE Product SET product_name = '".$product['name']."', product_desc = '".$product['desc']."', product_units = ".$product['units'].", product_price = ".$product['price']." WHERE product_seller = ".$product['seller'].";";
-
-        //ejecutar la sentencia
-        $res = $conn->query($stmt);
-
-        //retornar el valor
-        return $res;
-    }
-
-    function delete_product(int $id){
-        //obtener conexion a base de datos
-        $conn = DBConnection::getInstance();
-
-        //preparar la sentencia
-        $stmt = "DELETE FROM Product WHERE id = $id";
-
-        //ejecutar la sentencia
-        $res = $conn->query($stmt);
-
-        //retornar el valor
-        return $res;
-    }
-
-    function discount_units(array $prlist):void{
-        //obtener conexion a base de datos
-        $conn = DBConnection::getInstance();
-
-        //preparar la sentencia
-        $stmt = "";
-        $res = null;
-
-        //aplicar descuentos
-        foreach($prlist as $pr){
-            $stmt = "UPDATE Product SET product_units = product_units - ".$pr['units']." WHERE id = ".$pr['id'].";";
-            $res = $conn->query($stmt);
-            if(!$res){
-                throw new Exception("error al actualizar unidades");
+        public function discount_units(array $prlist):void{
+            //aplicar descuentos
+            foreach($prlist as $pr){
+                if(!$this->driver->update_set(PRODUCTTABLE,[PRODUCTCOLUMNS::UNITS->value],[PRODUCTCOLUMNS::UNITS->value." - ".$pr['units']],PRODUCTCOLUMNS::ID->value." = ".$pr['id'])){
+                    throw new Exception("error al actualizar unidades");
+                }
             }
         }
     }
