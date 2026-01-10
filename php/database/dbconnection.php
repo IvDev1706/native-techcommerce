@@ -104,10 +104,8 @@
             try{
                 //preparar el statement
                 $stmt = "UPDATE ".$table;
-                $stmt .= " SET ".$this->join("= ?, ",$fields)."= ?";
+                $stmt .= " SET ".$this->join(" = ?, ",$fields)." = ?";
                 $stmt .= " WHERE ".$condition.";";
-
-                print_r($stmt);
 
                 //preparar para parametros
                 $prepared = $this->con->prepare($stmt);

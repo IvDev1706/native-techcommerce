@@ -40,12 +40,12 @@
 
         public function create_product(array $product):bool{
             //retornar el valor
-            return $this-driver->insert_into(PRODUCTTABLE,$product,PRODUCTTYPES,[PRODUCTCOLUMNS::NAME->value,PRODUCTCOLUMNS::DESC->value,PRODUCTCOLUMNS::UNITS->value,PRODUCTCOLUMNS::PRICE->value,PRODUCTCOLUMNS::SELLER->value]);
+            return $this->driver->insert_into(PRODUCTTABLE,$product,PRODUCTTYPES,[PRODUCTCOLUMNS::NAME->value,PRODUCTCOLUMNS::DESC->value,PRODUCTCOLUMNS::UNITS->value,PRODUCTCOLUMNS::PRICE->value,PRODUCTCOLUMNS::SELLER->value]);
         }
 
         public function update_product(array $product):bool{
             //retornar el valor
-            return $this->driver->update_set(PRODUCTLISTTABLE,[PRODUCTCOLUMNS::NAME->value,PRODUCTCOLUMNS::DESC->value,PRODUCTCOLUMNS::UNITS->value,PRODUCTCOLUMNS::PRICE->value],[$product['name'],$product['desc'],$product['units'],$product['price']],PRODUCTTYPES_UPDATE,PRODUCTCOLUMNS::SELLER->value." = ".$product['seller']);
+            return $this->driver->update_set(PRODUCTTABLE,[PRODUCTCOLUMNS::NAME->value,PRODUCTCOLUMNS::DESC->value,PRODUCTCOLUMNS::UNITS->value,PRODUCTCOLUMNS::PRICE->value],[$product['name'],$product['desc'],$product['units'],$product['price']],PRODUCTTYPES_UPDATE,PRODUCTCOLUMNS::SELLER->value." = ".$product['seller']);
         }
 
         public function delete_product(int $id){

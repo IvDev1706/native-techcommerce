@@ -71,3 +71,21 @@ export async function delete_product(id){
     //caso de exito
     return true;
 }
+
+export async function update_product(data){
+    //peticion con fetch
+    const response = await fetch("/php/apis/productAPI.php?action=update",{
+        method: "POST",
+        mode: "cors",
+        body: data
+    });
+
+    //verificar estatus
+    if(!response.ok){
+        //caso de fracaso
+        return false;
+    }
+
+    //caso de exito
+    return true;
+}
