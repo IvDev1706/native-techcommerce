@@ -16,6 +16,7 @@ export function Input(name, type){
     const input = document.createElement("input");
 
     //configuracion del input
+    input.className = "inpt";
     input.name = name;
     input.type = type;
     input.required = true;
@@ -29,6 +30,7 @@ export function TextArea(name){
     const text = document.createElement("textarea");
 
     //configuracion
+    text.className = "inpt";
     text.name = name;
     text.required = true;
 

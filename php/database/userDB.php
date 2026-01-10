@@ -57,12 +57,13 @@
 
         //registrar usuario
         public function register_user(array $user):bool{
+
             if(!$this->driver){
                 return false;
             }
 
             //ejecutar sentencia
-            $res = $this->driver->insert_into(USERTABLE,[$user[USERCOLUMNS::NAME->value],$user[USERCOLUMNS::PASS->value],$user[USERCOLUMNS::MAIL->value]],USERTYPES,[USERCOLUMNS::NAME->value,USERCOLUMNS::PASS->value,USERCOLUMNS::MAIL->value]);
+            $res = $this->driver->insert_into(USERTABLE,[$user['name'],$user['pass'],$user['mail']],USERTYPES,[USERCOLUMNS::NAME->value,USERCOLUMNS::PASS->value,USERCOLUMNS::MAIL->value]);
 
             //ejecutar la insercion en tabla hija
             if($res){

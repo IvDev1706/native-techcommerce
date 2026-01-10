@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/styling.css">
-    <script src="../../js/routing/protection.js"></script>
+    <script type="module" src="../../js/routing/protection.js"></script>
     <script type="module" src="../../js/scripts/seller/add.js" defer></script>
     <title>seller - register</title>
 </head>
@@ -12,7 +12,7 @@
     <header class="main-header head row-layout-spaced">
         <img src="../../assets/img/logo.png" alt="logo">
         <h3>Registra nuevo producto</h3>
-        <a class="tab-link centered-text" href="../account.html">mi cuenta</a>
+        <a class="tab-link centered-text" href="../public/account.html">mi cuenta</a>
     </header>
     <aside class="main-aside aside column-layout-spaced">
         <a href="./home.html" class="tab-link centered-text">mis productos</a>
@@ -25,13 +25,13 @@
         <div style="width: 60%;" class="chart">
             <form id="product-form" class="column-layout" method="post">
                 <label for="name">Nombre del producto:</label>
-                <input type="text" name="name" maxlength="30" required>
+                <input class="inpt" type="text" name="name" maxlength="30" required>
                 <label for="units">Unidades disponibles:</label>
-                <input type="number" name="units" min="1" max="100" required>
+                <input class="inpt" type="number" name="units" min="1" max="100" required>
                 <label for="price">Precio unitario:</label>
-                <input type="number" name="price" min="1" required>
+                <input class="inpt" type="number" name="price" min="1" required>
                 <label for="desc">Descripcion:</label>
-                <textarea name="desc" required></textarea>
+                <textarea class="inpt" name="desc" required></textarea>
                 <button class="btn btn-agree" type="submit">registrar</button>
             </form>
         </div>

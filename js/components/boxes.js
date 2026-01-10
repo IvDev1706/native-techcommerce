@@ -11,7 +11,17 @@ export function Box(){
 
 export function ProductBox(product){
     //crear la caja de contenedor
-    const caja = Box();
+    const content_box = Box();
+    content_box.className += " row-layout";
+
+    //imagen de producto
+    const pic = document.createElement("img");
+    pic.src = "../../assets/img/product-ico.png";
+    pic.width = 256;
+
+    //contenedor de info de producto
+    const info_box = document.createElement("div");
+    info_box.style.padding = "5px";
 
     //datos del producto si o si
     const product_name = document.createElement("h3");
@@ -21,8 +31,8 @@ export function ProductBox(product){
     product_units.innerText = product.units + " unidades disponibles";
 
     //añadir a la caja
-    caja.appendChild(product_name);
-    caja.appendChild(product_units);
+    info_box.appendChild(product_name);
+    info_box.appendChild(product_units);
 
     if(!product.desc){
         //enlace a mas detalles
@@ -32,20 +42,24 @@ export function ProductBox(product){
         product_detail.innerText = "ver mas.";
 
         //añadir a la caja
-        caja.appendChild(product_detail);
+        info_box.appendChild(product_detail);
     }else{
         //modo detallado
         const product_price = document.createElement("p");
-        product_price.innerHTML = "<b>Precio unitario:</b> $"+product.price+"mxn";
+        product_price.innerHTML = "<b>Precio unitario:</b> $"+product.price+" mxn";
         const product_desc = document.createElement("p");
         product_desc.className = "justified";
         product_desc.innerText = product.desc;
 
         //añadir a la caja
-        caja.appendChild(product_price);
-        caja.appendChild(product_desc);
+        info_box.appendChild(product_price);
+        info_box.appendChild(product_desc);
     }
 
+    //añadir a la caja
+    content_box.appendChild(pic);
+    content_box.appendChild(info_box);
+
     //retornar la caja
-    return caja;
+    return content_box;
 }
