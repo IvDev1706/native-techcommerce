@@ -64,7 +64,7 @@
             return $res->fetch_row()[0] ? true : false;
         }
 
-        public function insert_into(string $table, array $values, string $types, ?array $fields = null):bool{
+        public function insert_into(string $table, array $values, string $types, ?array $fields = null):int{
             try{
                 //preparar el statement
                 $stmt = "INSERT INTO ".$table;
@@ -83,9 +83,9 @@
                 $prepared->execute();
 
                 //retornar verdadero
-                return true;
+                return $this->con->insert_id;
             }catch(Exception $e){
-                return false;
+                return 0;
             }
         }
 

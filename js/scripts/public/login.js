@@ -1,4 +1,4 @@
-import { validateAccess } from "../../services/user_service.js";
+import { validate_access } from "../../services/user_service.js";
 import { ADMIN, SELLER } from '../../utils/enums.js';
 
 //funcion de evento
@@ -10,7 +10,7 @@ function handleSubmit(e){
     const data = new FormData(e.target);
 
     //mandar a php
-    validateAccess(data).then(res => {
+    validate_access(data).then(res => {
         //validar los datos
         if(!res){
             //mostrar mensaje de error

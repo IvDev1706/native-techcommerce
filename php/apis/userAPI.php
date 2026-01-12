@@ -63,7 +63,7 @@
                     exit;
                 }
                 //respuesta get
-                echo json_decode(["msg"=>"cambios realizados"]);
+                echo json_encode(["msg"=>"cambios realizados"]);
                 break;
             case UserActions::DROP->value:
                 //eliminar usuario
@@ -77,11 +77,25 @@
                     exit;
                 }
                 //respuesta get
-                echo json_decode(["msg"=>"cuenta eliminada"]);
+                echo json_encode(["msg"=>"cuenta eliminada"]);
                 break;
             case UserActions::GET->value:
                 //obtener usuarios
-                echo json_decode($repo->get_users($_GET['page']));
+                echo json_encode($repo->get_users($_GET['page']));
+                break;
+            case UserActions::GET_ONE->value:
+                //pedir el usuario
+                $user = $repo->get_user($_GET['id']);
+                //validar usuario
+                if(!$user){
+                    //usuario no encontrado
+                    http_status_code(404);
+                    //cuerpo
+                    echo json_encode(["detail"=>"el usuario no ha sido encontrado"]);
+                    exit;
+                }
+                //regresar usuario
+                echo json_encode($user);
                 break;
             default:
                 //action invalida

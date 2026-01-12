@@ -1,25 +1,25 @@
-import { delete_product, get_product } from '../../services/product_service.js';
-import { ProductBox } from '../../components/boxes.js';
+import { delete_user, get_user } from '../../services/user_service.js';
+import { UserBox } from '../../components/boxes.js';
 import Button from '../../components/buttons.js';
 
 //contenedor de producto
-const product_cont = document.getElementById("product-cont");
+const user_cont = document.getElementById("user-cont");
 //formulario de busqueda
 const search_form = document.getElementById("search-form");
 
 //manejar la eliminacion del producto
 function handleDrop(id){
     //mandar al api
-    delete_product(id).then(res=>{
+    delete_user(id).then(res=>{
         //verificar respuesta
         if(res){
             //mensaje de exito
-            alert("producto eliminado!!!")
+            alert("usuario eliminado!!!")
             //redireccion
-            window.open("/html/sellerPages/home.html","_self");
+            window.open("/html/adminPages/dash.html","_self");
         }else{
             //mensaje de error
-            alert("Error al eliminar producto");
+            alert("Error al eliminar usuario");
         }
     }).catch(err=>console.error(err));
 }
@@ -31,27 +31,26 @@ function handleSubmit(e){
     e.preventDefault();
 
     //limpiar el contenedor
-    while(product_cont.firstChild){
+    while(user_cont.firstChild){
         //eliminar primer hijo
-        product_cont.removeChild(product_cont.firstChild);
+        user_cont.removeChild(user_cont.firstChild);
     }
 
     //obtener datos del formulario
     const data = new FormData(e.target);
 
     //mandar al api
-    get_product(data.get("search")).then(prod=>{
+    get_user(data.get("search")).then(usr=>{
         //boton de eliminado
         const dropBtn = Button("eliminar","danger");
-        dropBtn.addEventListener("click",e=>handleDrop(prod.id));
+        dropBtn.addEventListener("click",e=>handleDrop(usr.id));
         //añadir la caja de informacion
-        const pbox = ProductBox(prod);
-        pbox.childNodes.item(1).appendChild(dropBtn);
-        product_cont.appendChild(pbox);
+        const ubox = UserBox(usr);
+        ubox.childNodes.item(1).appendChild(dropBtn);
+        user_cont.appendChild(ubox);
 
     }).catch(err=>console.error(err));
 }
 
 //agregar escucha
 search_form.addEventListener("submit",e =>{ handleSubmit(e) });
-

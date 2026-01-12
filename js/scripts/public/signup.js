@@ -1,4 +1,4 @@
-import { registerUser } from "../../services/user_service.js";
+import { register_user } from "../../services/user_service.js";
 
 //funcion de evento
 function handleSubmit(e){
@@ -9,7 +9,7 @@ function handleSubmit(e){
     const data = new FormData(e.target);
 
     //mandar a php
-    registerUser(data).then(res => {
+    register_user(data).then(res => {
         //validar los datos
         if(!res){
             //mostrar mensaje de error

@@ -2,6 +2,7 @@
 create database techcommerce;
 use techcommerce;
 
+
 -- tablas de la base de datos
 create table Users(
     id int auto_increment primary key,
@@ -50,4 +51,4 @@ create index idx_plist on ProductList(ord, product);
 
 -- registro de administrador
 insert into Users(user_name, user_pass, user_mail) values ('admin','admin12345','admin@mail.com');
-insert into Admins values (LAST_INSERT_ID());
+insert into Admins values (LAST_INSERT_ID())

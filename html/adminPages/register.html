@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/styling.css">
     <script type="module" src="../../js/routing/protection.js"></script>
-    <script type="module" src="../../js/scripts/admin/read.js" defer></script>
+    <script type="module" src="../../js/scripts/admin/add.js" defer></script>
     <title>admin - dashboard</title>
 </head>
 <body class="main-layout">
@@ -21,9 +21,25 @@
         <a class="tab-link centered-text" href="./delete.html">eliminar</a>
     </aside>
     <main class="main-content content">
-        <h1 class="centered-text">Listado de cuentas</h1>
-        <div style="width: 100%;" id="user-cont">
-            esperando cuentas...
+        <h1 class="centered-text">Registrar nuevo usuario</h1>
+        <div style="width: 60%;" class="chart">
+            <form id="user-form" class="column-layout" method="POST">
+                <h2 class="centered-text">Nuevo usuario</h2>
+                <label for="name">Nombre de usuario:</label><br>
+                <input class="inpt" type="text" name="name" maxlength="15" required>
+                <label for="pass">Contraseña:</label><br>
+                <input class="inpt" type="password" name="pass" maxlength="10" required>
+                <label for="mail">Correo:</label><br>
+                <input class="inpt" type="email" name="mail" maxlength="35" required>
+                <label for="role">¿Que realizara?</label><br>
+                <select name="role">
+                    <option value="cliente">comprar</option>
+                    <option value="vendedor">vender</option>
+                    <option value="admin">administrar</option>
+                </select>
+                <button class="btn btn-agree" type="submit">registrar</button>
+            </form>
+            <p id="error-msg" class="danger-text"></p>
         </div>
     </main>
     <footer class="main-footer foot row-layout-spaced">

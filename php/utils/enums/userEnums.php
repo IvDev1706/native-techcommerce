@@ -14,6 +14,7 @@
     enum UserActions:string{
         case LOGIN = "login";
         case GET = "list";
+        case GET_ONE = "info";
         case ADD = "signup";
         case MODIFY = "update";
         case DROP = "delete";
