@@ -7,6 +7,7 @@
         case GET_ONE = "info";
         case ADD = "register";
         case MODIFY = "update";
+        case ORDER = "discount";
         case DROP = "delete";
     }
 ?>

@@ -123,6 +123,13 @@
             }
         }
 
+        public function decrement(string $table, string $field, int $amount, string $condition): bool {
+            $stmt = "UPDATE $table SET $field = $field - ? WHERE $condition";
+            $prepared = $this->con->prepare($stmt);
+            $prepared->bind_param("i", $amount);
+            return $prepared->execute();
+        }
+
         ///funcion join para concatenrar elementos
         private function join(string $sep, array $values, string $replace = ""):string{
             //contenedor

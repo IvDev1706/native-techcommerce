@@ -45,7 +45,7 @@ function handleSubmit(e){
         const dropBtn = Button("eliminar","danger");
         dropBtn.addEventListener("click",e=>handleDrop(prod.id));
         //añadir la caja de informacion
-        const pbox = ProductBox(prod);
+        const pbox = ProductBox(prod,"vendedor");
         pbox.childNodes.item(1).appendChild(dropBtn);
         product_cont.appendChild(pbox);
 

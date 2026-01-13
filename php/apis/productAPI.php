@@ -25,7 +25,11 @@
         switch ($_GET['action']) {
             case ProductActions::GET_ALL->value:
                 //obtener productos
-                echo json_encode($repo->get_products($_GET['page'],$_GET['seller']));
+                if(isset($_GET['seller'])){
+                    echo json_encode($repo->get_products($_GET['page'],$_GET['seller']));
+                }else{
+                    echo json_encode($repo->get_products($_GET['page']));
+                }
                 break;
             case ProductActions::GET_ONE->value:
                 //buscar producto
@@ -44,7 +48,7 @@
                 break;
             case ProductActions::ADD->value:
                 //mandar datos
-                $res = $repo->create_product(array_values($_POST));
+                $res = $repo->create_product($_POST);
                 //validar respuesta
                 if(!$res){
                     //respuesta 500
@@ -68,6 +72,14 @@
                     exit;
                 }
                 echo json_encode(["msg"=>"modificacion realizada"]);
+                break;
+            case ProductActions::ORDER->value:
+                //obtener datos
+                $raw = file_get_contents("php://input");
+                $data = json_decode($raw,true);
+                //mandar al driver
+                $repo->discount_units($data);
+                echo json_encode(["msg"=>"productos actualizados"]);
                 break;
             case ProductActions::DROP->value:
                 //mandar datos

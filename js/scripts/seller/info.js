@@ -18,7 +18,7 @@ if(id){
     //si la url existe se pide la informacion al api
     get_product(id).then((prod)=>{
         //añadir la caja de informacion
-        product_cont.appendChild(ProductBox(prod));
+        product_cont.appendChild(ProductBox(prod,"vendedor"));
     }).catch(err=>console.log(err));
 }else{
     product_cont.innerText = "direccion invalida, no se puede visualizar un producto";

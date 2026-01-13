@@ -89,3 +89,22 @@ export async function update_product(data){
     //caso de exito
     return true;
 }
+
+export async function discount_units(data){
+    //peticion con fetch
+    const response = await fetch("/php/apis/productAPI.php?action=discount",{
+        method: "POST",
+        mode: "cors",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(data)
+    });
+
+    //verificar estatus
+    if(!response.ok){
+        //retorna falso
+        return false;
+    }
+
+    //retornar verdadero
+    return true;
+}

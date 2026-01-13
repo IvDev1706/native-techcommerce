@@ -14,12 +14,11 @@ while(product_cont.firstChild){
 }
 
 //pedir productos
-const user = JSON.parse(sessionStorage.getItem("session"));
-get_products(0,user.id).then((products)=>{
+get_products(0).then((products)=>{
     //guardar productos en el fragmento
     for (const prod of products) {
         //crear caja y agregar al fragmento
-        frag.appendChild(ProductBox(prod,"vendedor"))
+        frag.appendChild(ProductBox(prod,"cliente"));
     }
 
     //añadir el fragmento al elemento

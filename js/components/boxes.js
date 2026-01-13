@@ -8,7 +8,7 @@ export function Box(){
     return caja;
 }
 
-export function ProductBox(product){
+export function ProductBox(product, role){
     //crear la caja de contenedor
     const content_box = Box();
     content_box.className += " row-layout";
@@ -36,7 +36,12 @@ export function ProductBox(product){
     if(!product.desc){
         //enlace a mas detalles
         const product_detail = document.createElement("a");
-        product_detail.href = "/html/sellerPages/detail.html?id="+product.id;
+        //en base al rol
+        if(role == "vendedor"){
+            product_detail.href = "/html/sellerPages/detail.html?id="+product.id;
+        }else{
+            product_detail.href = "/html/clientPages/detail.html?id="+product.id;
+        }
         product_detail.className = "link centered-text";
         product_detail.innerText = "ver mas.";
 

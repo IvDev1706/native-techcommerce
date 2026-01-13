@@ -40,7 +40,7 @@
 
         public function create_product(array $product):bool{
             //retornar el valor
-            return $this->driver->insert_into(PRODUCTTABLE,$product,PRODUCTTYPES,[PRODUCTCOLUMNS::NAME->value,PRODUCTCOLUMNS::DESC->value,PRODUCTCOLUMNS::UNITS->value,PRODUCTCOLUMNS::PRICE->value,PRODUCTCOLUMNS::SELLER->value]);
+            return $this->driver->insert_into(PRODUCTTABLE,[$product['name'],$product['desc'],$product['units'],$product['price'],$product['seller']],PRODUCTTYPES,[PRODUCTCOLUMNS::NAME->value,PRODUCTCOLUMNS::DESC->value,PRODUCTCOLUMNS::UNITS->value,PRODUCTCOLUMNS::PRICE->value,PRODUCTCOLUMNS::SELLER->value]);
         }
 
         public function update_product(array $product):bool{
@@ -56,7 +56,12 @@
         public function discount_units(array $prlist):void{
             //aplicar descuentos
             foreach($prlist as $pr){
-                if(!$this->driver->update_set(PRODUCTTABLE,[PRODUCTCOLUMNS::UNITS->value],[PRODUCTCOLUMNS::UNITS->value." - ".$pr['units']],PRODUCTCOLUMNS::ID->value." = ".$pr['id'])){
+                if(!$this->driver->decrement(
+                    PRODUCTTABLE,
+                    PRODUCTCOLUMNS::UNITS->value,
+                    $pr['units'],
+                    PRODUCTCOLUMNS::ID->value." = ".$pr['id']
+                )){
                     throw new Exception("error al actualizar unidades");
                 }
             }
